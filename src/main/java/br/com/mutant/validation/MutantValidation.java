@@ -8,8 +8,8 @@ public class MutantValidation {
 	public boolean isMutant(String[] dna) {
 
 		boolean ehMutante = false;
-
-		if (dna.length > 1) {
+		
+		if (validarArrayDna(dna)) { 
 			int qtdOcorrenciasDnaMutante = 0;
 			int tamArrayDna = dna.length;
 
@@ -47,6 +47,29 @@ public class MutantValidation {
 			ehMutante = validarSequenciaDnaDiagonais(tamArrayDna, matrizDna, qtdOcorrenciasDnaMutante);
 		}
 		return ehMutante;
+	}
+
+	private boolean validarArrayDna(String[] dna) {
+		
+		boolean valido = true;
+		Pattern regexEntrada = Pattern.compile("([B]|[D-F]|[H-S]|[U-Z])");
+		
+		if (dna.length < 4) {
+			return false;
+		}
+		
+		for (int i = 0; i < dna.length - 1; i++) {
+			if (dna[i].length() < 4) {
+				valido = false;
+				break;
+			}
+			Matcher m = regexEntrada.matcher(dna[i].toUpperCase());
+			if (m.find()) {
+				valido = false;
+				break;
+			}
+		}
+		return valido;
 	}
 
 	private boolean validarSequenciaDnaDiagonais(int tamArrayDna, char[][] matrizDna, int qtdOcorrenciasDnaMutante) {
